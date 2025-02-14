@@ -1,11 +1,12 @@
-const express = require('express')
-const app = express()
-PORT = 8080
+const express = require("express");
+const app = express();
 
-app.get('/', (req,res)=>{
-    res.send('This is Home Route')
+const PORT = 8080;
+
+app.get("/ping", (req, res) => {
+    res.send("This is Home Route");
 })
 
-app.listen(PORT, ()=>{
-    console.log(`Server is running at http://localhost:${PORT}`)
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`)
 })
