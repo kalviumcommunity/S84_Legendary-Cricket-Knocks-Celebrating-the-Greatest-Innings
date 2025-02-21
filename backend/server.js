@@ -1,16 +1,31 @@
-const express = require('express')
-const app = express()
-const PORT = 8080
+const express = require("express");
+const app = express();
+require("dotenv").config();
+const PORT = process.env.PORT || 3000;
+const connectToDb = require("./src/Config/db");
 
-app.get('/', (req,res)=>{
-    res.send('This is Home Route')
-})
+app.get("/ping", (req, res) => {
+  try {
+    res.status(200).send("This is Home Route");
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
+  }
+});
 
-app.use((err, req, res, next) => {
-    console.error(err.stack)
-    res.status(500).send('Something broke!')
-})
+const db = process.env.DB_URI;
+
+
+app.listen(PORT, async () => {
+  try {
+    await connectToDb(db);
+    console.log(`Server is running at http://localhost:${PORT}`);
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
 })
+
