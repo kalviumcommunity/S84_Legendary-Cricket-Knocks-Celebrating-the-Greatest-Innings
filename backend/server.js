@@ -24,3 +24,8 @@ app.listen(PORT, async () => {
     process.exit(1);
   }
 });
+
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`)
+})
+
