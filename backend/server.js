@@ -29,3 +29,8 @@ app.listen(PORT, async () => {
     console.error('Failed to start server:', error);
   }
 });
+
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`)
+})
+
