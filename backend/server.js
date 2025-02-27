@@ -1,8 +1,13 @@
 const express = require("express");
 const app = express();
-require("dotenv").config();
+require('dotenv').config();
 const PORT = process.env.PORT || 3000;
-const connectToDb = require("./src/Config/db");
+const db = process.env.DB_URI;
+
+app.use(express.json());
+
+const connectToDb = require('./src/config/db');
+const router = require("./Routes/routes");
 
 app.get("/ping", (req, res) => {
   try {
@@ -12,15 +17,15 @@ app.get("/ping", (req, res) => {
   }
 });
 
-const db = process.env.DB_URI;
-
+app.use("/api", router);
 
 app.listen(PORT, async () => {
   try {
+    
     await connectToDb(db);
     console.log(`Server is running at http://localhost:${PORT}`);
+    console.log('Connected to database')
   } catch (error) {
     console.error('Failed to start server:', error);
-    process.exit(1);
   }
 });
