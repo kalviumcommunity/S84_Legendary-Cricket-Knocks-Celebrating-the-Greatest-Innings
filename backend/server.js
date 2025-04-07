@@ -1,36 +1,36 @@
 const express = require("express");
+const dotenv = require("dotenv");
+const cors = require("cors");
+const connectToDb = require("./src/config/db");
+const userRoutes = require("./Routes/userRoutes");
+const knockRoutes = require("./Routes/KnockRoutes");
+
+dotenv.config();
 const app = express();
-require('dotenv').config();
 const PORT = process.env.PORT || 3000;
-const db = process.env.DB_URI;
 
-app.use(express.json());
+// Allow CORS from frontend (adjust if your frontend port differs)
+app.use(cors({ origin: "http://localhost:3000" })); // Example for CRAapp.use(express.json());
 
-const connectToDb = require('./src/config/db');
-const router = require("./Routes/routes");
+// Routes
+app.use('/users', userRoutes);
+app.use('/knocks', knockRoutes);
+
+app.get('/', (req, res) => {
+  res.send('This is Home Route');
+});
 
 app.get("/ping", (req, res) => {
-  try {
-    res.status(200).send("This is Home Route");
-  } catch (error) {
-    res.status(500).send("Internal Server Error");
-  }
+  res.status(200).send("You are inside Ping Route");
 });
 
-app.use("/api", router);
+const DB_URI = process.env.DB_URI;
 
-app.listen(PORT, async () => {
-  try {
-    
-    await connectToDb(db);
+connectToDb(DB_URI).then(() => {
+  app.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`);
-    console.log('Connected to database')
-  } catch (error) {
-    console.error('Failed to start server:', error);
-  }
+  });
+}).catch((error) => {
+  console.error('Failed to connect to DB:', error);
+  process.exit(1);
 });
-
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`)
-})
-
