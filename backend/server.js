@@ -10,7 +10,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Allow CORS from frontend (adjust if your frontend port differs)
-app.use(cors({ origin: "http://localhost:3000" })); // Example for CRAapp.use(express.json());
+app.use(cors({ origin: "http://localhost:5173" }));
+app.use(express.json());
 
 // Routes
 app.use('/users', userRoutes);
