@@ -1,6 +1,6 @@
-const {connect, ModifiedPathsSnapshot} = require('mongoose')
+const {connect} = require('mongoose')
 
-const connectToDb = async(url) =>{
+const connectToDb = async(url) => {
     try {
         await connect(url)
         console.log('Connected to database')
