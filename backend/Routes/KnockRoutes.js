@@ -16,7 +16,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-// POST route (unchanged, for completeness)
 router.post("/", async (req, res) => {
   const { playerName, runs, balls, country, opponent } = req.body;
   if (!playerName || !runs || !balls || !country || !opponent) {
@@ -29,6 +28,43 @@ router.post("/", async (req, res) => {
   } catch (error) {
     console.error("Error saving knock:", error);
     res.status(500).json({ success: false, message: "Error in posting data" });
+  }
+});
+
+router.put("/:id", async (req, res) => {
+  try {
+    const { playerName, runs, balls, country, opponent } = req.body;
+    const knockId = req.params.id;
+    const updatedKnock = await Knock.findByIdAndUpdate(
+      knockId,
+      { playerName, runs, balls, country, opponent },
+      { new: true }
+    );
+    if (!updatedKnock) {
+      return res.status(404).json({ success: false, message: "Knock not found" });
+    }
+    res.status(200).json({
+      success: true,
+      message: "Knock updated successfully",
+      knock: updatedKnock,
+    });
+  } catch (error) {
+    console.error("Error updating knock:", error);
+    res.status(500).json({ success: false, message: "Failed to update knock" });
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  try {
+    const knockId = req.params.id;
+    const deletedKnock = await Knock.findByIdAndDelete(knockId);
+    if (!deletedKnock) {
+      return res.status(404).json({ success: false, message: "Knock not found" });
+    }
+    res.status(200).json({ success: true, message: "Knock deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting knock:", error);
+    res.status(500).json({ success: false, message: "Failed to delete knock" });
   }
 });
 
