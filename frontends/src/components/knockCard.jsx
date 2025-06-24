@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./KnockCard.css";
+import "./knockCard.css";
 
 const API_BASE_URL = "http://localhost:3000";
 
