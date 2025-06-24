@@ -9,16 +9,21 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Allow CORS from frontend (adjust if your frontend port differs)
-app.use(cors({ origin: "http://localhost:5173" }));
+// CORS setup (for frontend on port 5173)
+app.use(cors({ 
+  origin: "http://localhost:5173",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+
 app.use(express.json());
 
 // Routes
-app.use('/users', userRoutes);
-app.use('/knocks', knockRoutes);
+app.use("/users", userRoutes);
+app.use("/knocks", knockRoutes);
 
-app.get('/', (req, res) => {
-  res.send('This is Home Route');
+app.get("/", (req, res) => {
+  res.send("This is Home Route");
 });
 
 app.get("/ping", (req, res) => {
@@ -32,6 +37,6 @@ connectToDb(DB_URI).then(() => {
     console.log(`Server is running at http://localhost:${PORT}`);
   });
 }).catch((error) => {
-  console.error('Failed to connect to DB:', error);
+  console.error("Failed to connect to DB:", error);
   process.exit(1);
 });

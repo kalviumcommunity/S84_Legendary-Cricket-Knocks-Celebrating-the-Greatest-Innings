@@ -4,6 +4,7 @@ const Knock = require("../Models/KnockModel");
 
 router.use(express.json());
 
+// GET all knocks
 router.get("/", async (req, res) => {
   try {
     const knocks = await Knock.find();
@@ -16,13 +17,16 @@ router.get("/", async (req, res) => {
   }
 });
 
+// POST a new knock
 router.post("/", async (req, res) => {
-  const { playerName, runs, balls, country, opponent } = req.body;
+  const { playerName, runs, balls, country, opponent, videoUrl } = req.body;
+
   if (!playerName || !runs || !balls || !country || !opponent) {
     return res.status(400).json({ success: false, message: "All fields are required" });
   }
+
   try {
-    const newKnock = new Knock({ playerName, runs, balls, country, opponent });
+    const newKnock = new Knock({ playerName, runs, balls, country, opponent, videoUrl });
     await newKnock.save();
     res.status(201).json({ success: true, message: "New knock saved", knock: newKnock });
   } catch (error) {
@@ -31,18 +35,22 @@ router.post("/", async (req, res) => {
   }
 });
 
+// PUT update a knock
 router.put("/:id", async (req, res) => {
   try {
-    const { playerName, runs, balls, country, opponent } = req.body;
+    const { playerName, runs, balls, country, opponent, videoUrl } = req.body;
     const knockId = req.params.id;
+
     const updatedKnock = await Knock.findByIdAndUpdate(
       knockId,
-      { playerName, runs, balls, country, opponent },
+      { playerName, runs, balls, country, opponent, videoUrl },
       { new: true }
     );
+
     if (!updatedKnock) {
       return res.status(404).json({ success: false, message: "Knock not found" });
     }
+
     res.status(200).json({
       success: true,
       message: "Knock updated successfully",
@@ -54,13 +62,16 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+// DELETE a knock
 router.delete("/:id", async (req, res) => {
   try {
     const knockId = req.params.id;
     const deletedKnock = await Knock.findByIdAndDelete(knockId);
+
     if (!deletedKnock) {
       return res.status(404).json({ success: false, message: "Knock not found" });
     }
+
     res.status(200).json({ success: true, message: "Knock deleted successfully" });
   } catch (error) {
     console.error("Error deleting knock:", error);
