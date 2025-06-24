@@ -1,4 +1,4 @@
-import "./navbar.css";
+import "./Navbar.css";
 import Logo from "../assets/Logo.jpg";
 import { Link } from "react-router-dom"; 
 

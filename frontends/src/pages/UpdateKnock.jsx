@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "./addKnock.css"; // Reuse AddKnock CSS for consistency
+import "./AddKnock.css"; // Reuse AddKnock CSS for consistency
 
 const API_BASE_URL = "http://localhost:3000";
 
