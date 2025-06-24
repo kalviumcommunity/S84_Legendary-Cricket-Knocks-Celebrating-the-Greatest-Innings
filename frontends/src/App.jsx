@@ -1,8 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import AddKnock from "./pages/AddKnock";
-import UpdateKnock from "./pages/UpdateKnock"; // New import
+// import Home from "./pages/Home";
+// import AddKnock from "./pages/AddKnock";
+// import UpdateKnock from "./pages/UpdateKnock"; // New import
 import Navbar from "./components/Navbar";
+import Home from "./pages/home";
+import AddKnock from "./pages/addKnock";
+import UpdateKnock from "./pages/updateKnock";
 
 // App component
 function App() {
