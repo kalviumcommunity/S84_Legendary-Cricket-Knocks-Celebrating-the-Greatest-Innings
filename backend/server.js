@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 
 // CORS setup (for frontend on port 5173)
 app.use(cors({ 
-  origin: ["http://localhost:5173","https://s84-legendary-cricket-knocks-celebrating.onrender.com"],
+  origin: ["http://localhost:5173","https://cricket-knocks-celebrating.netlify.app/"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
