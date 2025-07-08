@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./knockCard.css";
 
-const API_BASE_URL = "http://localhost:3000";
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 export default function KnockCard({ post, onDelete }) {
   const navigate = useNavigate();

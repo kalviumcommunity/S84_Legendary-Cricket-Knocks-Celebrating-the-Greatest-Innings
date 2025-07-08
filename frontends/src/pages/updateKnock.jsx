@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "./addKnock.css"; // Reuse AddKnock CSS for consistency
+import "./addKnock.css";
 
-const API_BASE_URL = "http://localhost:3000";
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 export default function UpdateKnock() {
-  const { id } = useParams(); // Get knock ID from URL
+  const { id } = useParams();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     playerName: "",
@@ -16,7 +16,6 @@ export default function UpdateKnock() {
   });
   const [error, setError] = useState("");
 
-  // Fetch the knock data when the component mounts
   useEffect(() => {
     const fetchKnock = async () => {
       try {
@@ -62,13 +61,9 @@ export default function UpdateKnock() {
       }
       setError("");
       alert("Knock updated successfully!");
-      navigate("/"); // Redirect to Home to refresh list
+      navigate("/");
     } catch (err) {
-      setError(
-        err.message.includes("fetch")
-          ? "Failed to connect to the backend. Ensure it’s running on http://localhost:3000 and CORS allows http://localhost:5173."
-          : err.message
-      );
+      setError(err.message);
       console.error("Fetch error:", err);
     }
   };

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import KnockCard from "../components/knockCard";
 
-const API_BASE_URL = "http://localhost:3000";
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 export default function Home() {
   const [knocks, setKnocks] = useState([]);
@@ -17,22 +17,18 @@ export default function Home() {
       setKnocks(data);
       setError("");
     } catch (err) {
-      setError(
-        err.message.includes("fetch")
-          ? "Failed to connect to the backend. Ensure it’s running on http://localhost:3000 and CORS allows http://localhost:5173."
-          : err.message
-      );
+      setError(err.message);
       console.error("Fetch error:", err);
     }
   };
 
   useEffect(() => {
     fetchKnocks();
-  }, []); // Runs on mount
+  }, []);
 
   const handleDelete = (id) => {
-    setKnocks(knocks.filter((knock) => knock._id !== id)); // Remove deleted knock locally
-    fetchKnocks(); // Re-fetch to ensure sync with server
+    setKnocks(knocks.filter((knock) => knock._id !== id));
+    fetchKnocks();
   };
 
   return (

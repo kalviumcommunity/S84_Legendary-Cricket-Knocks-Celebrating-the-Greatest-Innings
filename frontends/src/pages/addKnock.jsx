@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./addKnock.css";
 
-const API_BASE_URL = "http://localhost:3000";
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 export default function AddKnock() {
   const [formData, setFormData] = useState({
@@ -11,7 +11,7 @@ export default function AddKnock() {
     balls: "",
     country: "",
     opponent: "",
-    videoUrl: "", // Added video URL
+    videoUrl: "",
   });
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -49,11 +49,7 @@ export default function AddKnock() {
       alert("Knock added successfully!");
       navigate("/");
     } catch (err) {
-      setError(
-        err.message.includes("fetch")
-          ? "Failed to connect to the backend. Ensure it’s running on http://localhost:3000 and CORS allows http://localhost:5173."
-          : err.message
-      );
+      setError(err.message);
       console.error("Fetch error:", err);
     }
   };
